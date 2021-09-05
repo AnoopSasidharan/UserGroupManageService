@@ -24,6 +24,14 @@ namespace UserGroupManage.Service.Services
         {
             return await _dbContext.Groups.FindAsync(GroupId);
         }
+        public void AddGroup(Group group)
+        {
+            _dbContext.Groups.Add(group);
+        }
+        public void RemoveGroup(Group group)
+        {
+            _dbContext.Remove(group);
+        }
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _dbContext.Users.ToListAsync();

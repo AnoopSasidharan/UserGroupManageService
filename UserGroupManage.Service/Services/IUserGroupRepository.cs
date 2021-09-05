@@ -8,6 +8,8 @@ namespace UserGroupManage.Service.Services
     {
         Task<IEnumerable<Group>> GetAllGroupsAsync();
         Task<Group> GetGroupAsync(int GroupId);
+        void AddGroup(Group group);
+        void RemoveGroup(Group group);
 
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserAsync(int UserId);
