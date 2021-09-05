@@ -48,6 +48,22 @@ namespace UserGroupManage.Service.Services
         {
             _dbContext.Remove(user);
         }
+        public async Task<IEnumerable<UserType>> GetUserTypesAsync()
+        {
+            return await _dbContext.UserTypes.ToListAsync();
+        }
+        public async Task<UserType> GetUserTypesByIdAsync(int Id)
+        {
+            return await _dbContext.UserTypes.FindAsync(Id);
+        }
+        public void AddUserType(UserType userType)
+        {
+            _dbContext.UserTypes.Add(userType);
+        }
+        public void RemoveUserType(UserType userType)
+        {
+            _dbContext.UserTypes.Remove(userType);
+        }
         public async Task<bool> SaveRepositoryAsync()
         {
             return await _dbContext.SaveChangesAsync() > 0;

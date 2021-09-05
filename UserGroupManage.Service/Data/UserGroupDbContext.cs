@@ -16,5 +16,6 @@ namespace UserGroupManage.Service.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<UserType> UserTypes { get; set; }
     }
 }

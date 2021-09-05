@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data.Entities;
 using UserGroupManage.Service.Models;
@@ -40,10 +41,28 @@ namespace UserGroupManage.Service.Controllers
         {
             var user = _mapper.Map<User>(userDto);
             user.CreatedDate = DateTime.Now;
+            if (userDto.UserTypeId < 1)
+            {
+                var types = await _userGroupRepository.GetUserTypesAsync();
+                var regular = types.FirstOrDefault(t => t.Description == "Regular");
+                if(regular!=null)
+                {
+                    user.UserTypeId = regular.TypeId;
+                }
+            }
             _userGroupRepository.AddUser(user);
             await _userGroupRepository.SaveRepositoryAsync();
             return CreatedAtRoute("GetUserById", new { user.Id }, user);
         }
+        //[HttpPatch("{Id}")]
+        //public async Task<ActionResult> PatchUser([FromBody] CreateUserDto userDto)
+        //{
+        //    var user = _mapper.Map<User>(userDto);
+        //    user.CreatedDate = DateTime.Now;
+        //    _userGroupRepository.AddUser(user);
+        //    await _userGroupRepository.SaveRepositoryAsync();
+        //    return CreatedAtRoute("GetUserById", new { user.Id }, user);
+        //}
         [HttpDelete("{Id}")]
         public async Task<ActionResult> Delete(int Id)
         {

@@ -15,6 +15,13 @@ namespace UserGroupManage.Service.Services
         Task<User> GetUserAsync(int UserId);
         void AddUser(User user);
         void RemoveUser(User user);
+
+        Task<IEnumerable<UserType>> GetUserTypesAsync();
+        Task<UserType> GetUserTypesByIdAsync(int Id);
+        void AddUserType(UserType userType);
+        void RemoveUserType(UserType userType);
         Task<bool> SaveRepositoryAsync();
+
+        
     }
 }
