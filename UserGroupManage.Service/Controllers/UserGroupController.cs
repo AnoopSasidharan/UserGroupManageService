@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data.Entities;
 using UserGroupManage.Service.Models;
@@ -11,9 +12,11 @@ namespace UserGroupManage.Service.Controllers
     public class UserGroupController : ControllerBase
     {
         private readonly IUserGroupRepository _userGroupRepository;
-        public UserGroupController(IUserGroupRepository userGroupRepository)
+        private readonly IMapper _mapper;
+        public UserGroupController(IUserGroupRepository userGroupRepository, IMapper mapper)
         {
             _userGroupRepository = userGroupRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("{GroupId}/{UserId}")]
@@ -29,8 +32,10 @@ namespace UserGroupManage.Service.Controllers
 
             if(user==null)
             {
-                _userGroupRepository.AddUser(user);//automapper
+                var newUser = _mapper.Map<User>(userDto);
+                _userGroupRepository.AddUser(newUser);//automapper
                 await _userGroupRepository.SaveRepositoryAsync();
+                user = newUser;
             }
 
             group.Users.Add(user);

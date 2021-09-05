@@ -13,6 +13,7 @@ namespace UserGroupManage.Service.Profiles
         public UserProfile()
         {
             CreateMap<CreateUserDto, User>();
+            CreateMap<User, CreateUserDto>();
         }
     }
 }
