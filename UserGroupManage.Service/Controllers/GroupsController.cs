@@ -10,6 +10,8 @@ using UserGroupManage.Service.Services;
 
 namespace UserGroupManage.Service.Controllers
 {
+    [ApiController]
+    [Route("api/groups")]
     public class GroupsController:ControllerBase
     {
         private readonly IUserGroupRepository _userGroupRepository;
