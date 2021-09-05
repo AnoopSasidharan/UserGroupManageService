@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data.Entities;
 using UserGroupManage.Service.Models;
@@ -12,7 +11,7 @@ namespace UserGroupManage.Service.Controllers
 {
     [ApiController]
     [Route("api/groups")]
-    public class GroupsController:ControllerBase
+    public class GroupsController : ControllerBase
     {
         private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
