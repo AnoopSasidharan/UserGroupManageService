@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data.Entities;
@@ -20,6 +21,8 @@ namespace UserGroupManage.Service.Controllers
         }
 
         [HttpPost("{GroupId}/{UserId}")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Helpdesk")]
         public async Task<ActionResult> AddUserToGroup(int GroupId,int UserId, [FromBody] CreateUserDto userDto)
         {
             var group = await _userGroupRepository.GetGroupAsync(GroupId);

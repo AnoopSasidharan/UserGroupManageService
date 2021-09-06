@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace UserGroupManage.Service.Controllers
             return Ok(_mapper.Map<GroupDto>(group));
         }
         [HttpPost()]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Helpdesk")]
         public async Task<ActionResult> CreateGroup([FromBody] CreateGroupDto groupDto)
         {
             var group = _mapper.Map<Group>(groupDto);
@@ -46,6 +49,8 @@ namespace UserGroupManage.Service.Controllers
             return CreatedAtRoute("GetGroupById", new { group.Id }, _mapper.Map<GroupDto>(group));
         }
         [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Helpdesk")]
         public async Task<ActionResult> DeleteGroup(int Id)
         {
             var group = await _userGroupRepository.GetGroupAsync(Id);

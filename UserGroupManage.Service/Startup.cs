@@ -1,3 +1,4 @@
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,9 +41,13 @@ namespace UserGroupManage.Service
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
-                    // Use the default property (Pascal) casing
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = Configuration["Authority"];
                 });
 
             services.AddSwaggerGen(c =>
@@ -76,6 +81,8 @@ namespace UserGroupManage.Service
             app.UseCors();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
