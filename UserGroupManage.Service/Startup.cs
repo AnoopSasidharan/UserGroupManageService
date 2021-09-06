@@ -34,6 +34,7 @@ namespace UserGroupManage.Service
             services.AddDbContext<UserGroupDbContext>(dboptions =>
             {
                 dboptions.UseSqlite(Configuration.GetConnectionString("UserGroupDB"));
+                dboptions.LogTo(Console.WriteLine, LogLevel.Information);
             });
             services.AddScoped<IUserGroupRepository, UserGroupRepository>();
             services.AddControllers()

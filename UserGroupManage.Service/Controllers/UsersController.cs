@@ -23,18 +23,18 @@ namespace UserGroupManage.Service.Controllers
             this._mapper = mapper;
         }
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
             var users = await _userGroupRepository.GetAllUsersAsync();
-            return Ok(users);
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
         }
         [HttpGet("{Id}", Name ="GetUserById")]
-        public async Task<ActionResult<User>> GetUserById(int Id)
+        public async Task<ActionResult<UserDto>> GetUserById(int Id)
         {
             var user = await _userGroupRepository.GetUserAsync(Id);
             if (user == null)
                 return NotFound();
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
         [HttpPost()]
         public async Task<ActionResult> CreateUser([FromBody] CreateUserDto userDto)

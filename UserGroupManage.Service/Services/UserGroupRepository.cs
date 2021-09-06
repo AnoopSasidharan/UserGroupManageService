@@ -18,7 +18,7 @@ namespace UserGroupManage.Service.Services
         }
         public async Task<IEnumerable<Group>> GetAllGroupsAsync()
         {
-            return await _dbContext.Groups.Include(g => g.Users).ToListAsync();
+            return await _dbContext.Groups.Include(g => g.Users).ThenInclude(u=>u.UserType).ToListAsync();
         }
         public async Task<Group> GetGroupAsync(int GroupId)
         {
@@ -34,11 +34,11 @@ namespace UserGroupManage.Service.Services
         }
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _dbContext.Users.Include(u=> u.UserType ).ToListAsync();
+            return await _dbContext.Users.Include(u=> u.UserType).ToListAsync();
         }
         public async Task<User> GetUserAsync(int UserId)
         {
-            return await _dbContext.Users.FindAsync(UserId);
+            return await _dbContext.Users.Include(u=>u.UserType).FirstOrDefaultAsync(u=> u.Id==UserId);
         }
         public void AddUser(User user)
         {

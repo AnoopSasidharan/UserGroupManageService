@@ -23,18 +23,18 @@ namespace UserGroupManage.Service.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups()
         {
             var groups = await _userGroupRepository.GetAllGroupsAsync();
-            return Ok(groups);
+            return Ok(_mapper.Map<IEnumerable<GroupDto>>(groups));
         }
         [HttpGet("{Id}", Name = "GetGroupById")]
-        public async Task<ActionResult<Group>> GetGroupById(int Id)
+        public async Task<ActionResult<GroupDto>> GetGroupById(int Id)
         {
             var group = await _userGroupRepository.GetGroupAsync(Id);
             if (group == null)
                 return NotFound();
-            return Ok(group);
+            return Ok(_mapper.Map<GroupDto>(group));
         }
         [HttpPost()]
         public async Task<ActionResult> CreateGroup([FromBody] CreateGroupDto groupDto)
@@ -43,7 +43,7 @@ namespace UserGroupManage.Service.Controllers
             group.CreatedDate = DateTime.Now;
             _userGroupRepository.AddGroup(group);
             await _userGroupRepository.SaveRepositoryAsync();
-            return CreatedAtRoute("GetGroupById", new { group.Id }, group);
+            return CreatedAtRoute("GetGroupById", new { group.Id }, _mapper.Map<GroupDto>(group));
         }
         [HttpDelete("{Id}")]
         public async Task<ActionResult> DeleteGroup(int Id)
