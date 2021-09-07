@@ -21,8 +21,7 @@ namespace UserGroupManage.Service.Controllers
         }
 
         [HttpPost("{GroupId}/{UserId}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Helpdesk")]
+        [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> AddUserToGroup(int GroupId,int UserId, [FromBody] CreateUserDto userDto)
         {
             var group = await _userGroupRepository.GetGroupAsync(GroupId);

@@ -24,22 +24,21 @@ namespace UserGroupManage.Service.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups([FromQuery] GroupSearchDto groupSearchDto)
         {
-            var groups = await _userGroupRepository.GetAllGroupsAsync();
+            var groups = await _userGroupRepository.GetAllGroupsAsync(groupSearchDto);
             return Ok(_mapper.Map<IEnumerable<GroupDto>>(groups));
         }
         [HttpGet("{Id}", Name = "GetGroupById")]
         public async Task<ActionResult<GroupDto>> GetGroupById(int Id)
         {
-            var group = await _userGroupRepository.GetGroupAsync(Id);
+             var group = await _userGroupRepository.GetGroupAsync(Id);
             if (group == null)
                 return NotFound();
             return Ok(_mapper.Map<GroupDto>(group));
         }
         [HttpPost()]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Helpdesk")]
+        [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> CreateGroup([FromBody] CreateGroupDto groupDto)
         {
             var group = _mapper.Map<Group>(groupDto);
@@ -49,8 +48,7 @@ namespace UserGroupManage.Service.Controllers
             return CreatedAtRoute("GetGroupById", new { group.Id }, _mapper.Map<GroupDto>(group));
         }
         [HttpDelete("{Id}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Helpdesk")]
+        [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> DeleteGroup(int Id)
         {
             var group = await _userGroupRepository.GetGroupAsync(Id);

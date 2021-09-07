@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data;
 using UserGroupManage.Service.Data.Entities;
+using UserGroupManage.Service.Models;
 
 namespace UserGroupManage.Service.Services
 {
@@ -16,13 +18,23 @@ namespace UserGroupManage.Service.Services
         {
             this._dbContext = dbContext;
         }
-        public async Task<IEnumerable<Group>> GetAllGroupsAsync()
+        public async Task<IEnumerable<Group>> GetAllGroupsAsync(GroupSearchDto groupSearchDto)
         {
-            return await _dbContext.Groups.Include(g => g.Users).ThenInclude(u=>u.UserType).ToListAsync();
+            var groups = _dbContext.Groups as IQueryable<Group>;
+            if(!string.IsNullOrWhiteSpace(groupSearchDto.Name))
+            {
+                groups = groups.Where(g => g.Name.Contains(groupSearchDto.Name));
+            }
+            if(groupSearchDto.IncludeUsers)
+            {
+                groups = groups.Include(g => g.Users).ThenInclude(u => u.UserType);
+            }
+            return (await groups.ToListAsync());
         }
         public async Task<Group> GetGroupAsync(int GroupId)
         {
-            return await _dbContext.Groups.FindAsync(GroupId);
+            return await _dbContext.Groups.Include(g => g.Users).ThenInclude(u => u.UserType)
+                .FirstOrDefaultAsync(g => g.Id == GroupId);
         }
         public void AddGroup(Group group)
         {

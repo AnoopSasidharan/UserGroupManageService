@@ -32,8 +32,7 @@ namespace UserGroupManage.Service.Controllers
             return Ok(usertype);
         }
         [HttpPost()]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Helpdesk")]
+        [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> CreateUserType([FromBody] UserType userType)
         {
             _userGroupRepository.AddUserType(userType);
@@ -41,8 +40,7 @@ namespace UserGroupManage.Service.Controllers
             return CreatedAtRoute("CreateUserTypeById", new { Id = userType.TypeId }, userType);
         }
         [HttpDelete("{Id}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Helpdesk")]
+        [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> DeleteUserTypes(int Id)
         {
             var type = await _userGroupRepository.GetUserTypesByIdAsync(Id);
