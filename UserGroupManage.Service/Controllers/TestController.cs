@@ -10,6 +10,7 @@ namespace UserGroupManage.Service.Controllers
     [Route("api/test")]
     public class TestController:ControllerBase
     {
+        [HttpGet]
         public ActionResult<string> Get()
         {
             return Ok("test");
