@@ -3,6 +3,7 @@ using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,18 @@ namespace UserGroupManage.Service.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserGroupRepository _userGroupRepository;
+        //private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UsersController(IUserGroupRepository userGroupRepository, 
+        public UsersController(
+                               //IUserGroupRepository userGroupRepository, 
                                IMapper mapper,
                                UserManager<ApplicationUser> userManager, 
                                SignInManager<ApplicationUser> signInManager)
         {
-            this._userGroupRepository = userGroupRepository;
+            //this._userGroupRepository = userGroupRepository;
             this._mapper = mapper;
             this._userManager = userManager;
             this._signInManager = signInManager;
@@ -36,7 +38,9 @@ namespace UserGroupManage.Service.Controllers
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            var users = await _userGroupRepository.GetAllUsersAsync();
+            var users= await _userManager.Users.ToListAsync();
+            //var users = await _userGroupRepository.GetAllUsersAsync();
+            //return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
             return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
         }
         [HttpGet("{Id}", Name ="GetUserById")]

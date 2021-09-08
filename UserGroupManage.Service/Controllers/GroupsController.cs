@@ -15,15 +15,12 @@ namespace UserGroupManage.Service.Controllers
     public class GroupsController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
-        //private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
 
         public GroupsController(IGroupRepository groupRepository,
-            //IUserGroupRepository userGroupRepository, 
-            IMapper mapper)
+                                IMapper mapper)
         {
             this._groupRepository = groupRepository;
-            //this._userGroupRepository = userGroupRepository;
             this._mapper = mapper;
         }
 
