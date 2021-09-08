@@ -80,6 +80,7 @@ namespace UserGroupManage.Service
                 });
             });
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

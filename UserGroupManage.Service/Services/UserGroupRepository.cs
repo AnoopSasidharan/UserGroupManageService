@@ -48,10 +48,10 @@ namespace UserGroupManage.Service.Services
         {
             return await _dbContext.ApplicationUsers.Include(u=> u.UserType).ToListAsync();
         }
-        public async Task<User> GetUserAsync(int UserId)
+        public async Task<ApplicationUser> GetUserAsync(string UserId)
         {
-            return null;
-           // return await _dbContext.Users.Include(u=>u.UserType).FirstOrDefaultAsync(u=> u.Id==UserId);
+            //return null;
+            return await _dbContext.ApplicationUsers.FirstOrDefaultAsync(u=> u.Id== UserId);
         }
         public void AddUser(User user)
         {

@@ -13,7 +13,7 @@ namespace UserGroupManage.Service.Services
         void RemoveGroup(Group group);
 
         Task<IEnumerable<ApplicationUser>> GetAllUsersAsync();
-        Task<User> GetUserAsync(int UserId);
+        Task<ApplicationUser> GetUserAsync(string UserId);
         void AddUser(User user);
         void RemoveUser(User user);
 

@@ -11,25 +11,26 @@ namespace UserGroupManage.Service.Controllers
     [Route("api/test")]
     public class TestController:ControllerBase
     {
-        private readonly UserGroupRepository _userGroupRepository;
+        private readonly IGroupRepository _groupRepository;
 
-        public TestController(UserGroupRepository userGroupRepository)
+        public TestController(IGroupRepository groupRepository)
         {
-            this._userGroupRepository = userGroupRepository;
+            this._groupRepository = groupRepository;
         }
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {
             try
             {
-                var group = await _userGroupRepository.GetGroupAsync(1);
+                var group = await _groupRepository.GetGroupAsync(1);
+                return Ok(group.Name);
             }
             catch (Exception ex)
             {
                 return Ok(ex.Message);
                 
             }
-            return Ok("test ok");
+            
         }
     }
 }

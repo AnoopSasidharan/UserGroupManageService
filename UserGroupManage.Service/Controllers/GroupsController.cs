@@ -26,7 +26,7 @@ namespace UserGroupManage.Service.Controllers
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups([FromQuery] GroupSearchDto groupSearchDto)
         {
-            return Ok(new List<Group>() { new Group() });
+            //return Ok(new List<Group>() { new Group() });
             var groups = await _userGroupRepository.GetAllGroupsAsync(groupSearchDto);
             return Ok(_mapper.Map<IEnumerable<GroupDto>>(groups));
         }
