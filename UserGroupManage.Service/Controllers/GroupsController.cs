@@ -14,12 +14,16 @@ namespace UserGroupManage.Service.Controllers
     [Route("api/groups")]
     public class GroupsController : ControllerBase
     {
-        private readonly IUserGroupRepository _userGroupRepository;
+        private readonly IGroupRepository _groupRepository;
+        //private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
 
-        public GroupsController(IUserGroupRepository userGroupRepository, IMapper mapper)
+        public GroupsController(IGroupRepository groupRepository,
+            //IUserGroupRepository userGroupRepository, 
+            IMapper mapper)
         {
-            this._userGroupRepository = userGroupRepository;
+            this._groupRepository = groupRepository;
+            //this._userGroupRepository = userGroupRepository;
             this._mapper = mapper;
         }
 
@@ -27,13 +31,15 @@ namespace UserGroupManage.Service.Controllers
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroups([FromQuery] GroupSearchDto groupSearchDto)
         {
             //return Ok(new List<Group>() { new Group() });
-            var groups = await _userGroupRepository.GetAllGroupsAsync(groupSearchDto);
+            //var groups = await _userGroupRepository.GetAllGroupsAsync(groupSearchDto);
+            var groups = await _groupRepository.GetAllGroupsAsync(groupSearchDto);
             return Ok(_mapper.Map<IEnumerable<GroupDto>>(groups));
         }
         [HttpGet("{Id}", Name = "GetGroupById")]
         public async Task<ActionResult<GroupDto>> GetGroupById(int Id)
         {
-             var group = await _userGroupRepository.GetGroupAsync(Id);
+            //var group = await _userGroupRepository.GetGroupAsync(Id);
+            var group = await _groupRepository.GetGroupAsync(Id);
             if (group == null)
                 return NotFound();
             return Ok(_mapper.Map<GroupDto>(group));
@@ -44,22 +50,22 @@ namespace UserGroupManage.Service.Controllers
         {
             var group = _mapper.Map<Group>(groupDto);
             group.CreatedDate = DateTime.Now;
-            _userGroupRepository.AddGroup(group);
-            await _userGroupRepository.SaveRepositoryAsync();
+            _groupRepository.AddGroup(group);
+            await _groupRepository.SaveRepositoryAsync();
             return CreatedAtRoute("GetGroupById", new { group.Id }, _mapper.Map<GroupDto>(group));
         }
         [HttpDelete("{Id}")]
         [Authorize(Roles = "Admin,Helpdesk")]
         public async Task<ActionResult> DeleteGroup(int Id)
         {
-            var group = await _userGroupRepository.GetGroupAsync(Id);
+            var group = await _groupRepository.GetGroupAsync(Id);
             if (group == null)
             {
                 return NotFound();
             }
 
-            _userGroupRepository.RemoveGroup(group);
-            await _userGroupRepository.SaveRepositoryAsync();
+            _groupRepository.RemoveGroup(group);
+            await _groupRepository.SaveRepositoryAsync();
             return NoContent();
         }
     }
