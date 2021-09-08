@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserGroupManage.Service.Services;
 
 namespace UserGroupManage.Service.Controllers
 {
@@ -10,10 +11,25 @@ namespace UserGroupManage.Service.Controllers
     [Route("api/test")]
     public class TestController:ControllerBase
     {
-        [HttpGet]
-        public ActionResult<string> Get()
+        private readonly UserGroupRepository _userGroupRepository;
+
+        public TestController(UserGroupRepository userGroupRepository)
         {
-            return Ok("test");
+            this._userGroupRepository = userGroupRepository;
+        }
+        [HttpGet]
+        public async Task<ActionResult<string>> Get()
+        {
+            try
+            {
+                var group = await _userGroupRepository.GetGroupAsync(1);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+                
+            }
+            return Ok("test ok");
         }
     }
 }
