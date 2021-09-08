@@ -52,7 +52,7 @@ namespace UserGroupManage.Service
             services.AddIdentity<ApplicationUser, IdentityRole>()
                .AddEntityFrameworkStores<UserGroupManagementDbContext>();
 
-            services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+            
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -79,6 +79,7 @@ namespace UserGroupManage.Service
                     policy.AllowAnyOrigin();
                 });
             });
+            services.AddTransient<IUserGroupRepository, UserGroupRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
