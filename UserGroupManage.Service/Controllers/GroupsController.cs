@@ -35,7 +35,6 @@ namespace UserGroupManage.Service.Controllers
         [HttpGet("{Id}", Name = "GetGroupById")]
         public async Task<ActionResult<GroupDto>> GetGroupById(int Id)
         {
-            //var group = await _userGroupRepository.GetGroupAsync(Id);
             var group = await _groupRepository.GetGroupAsync(Id);
             if (group == null)
                 return NotFound();

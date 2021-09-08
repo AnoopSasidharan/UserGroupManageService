@@ -11,7 +11,7 @@ namespace UserGroupManage.Service.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public int CreatedById { get; set; }
-        public int UpdatedById { get; set; }
+        //public int CreatedById { get; set; }
+        //public int UpdatedById { get; set; }
     }
 }
