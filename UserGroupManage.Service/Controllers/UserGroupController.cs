@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using UserGroupManage.Service.Data.Entities;
@@ -14,15 +15,18 @@ namespace UserGroupManage.Service.Controllers
     {
         private readonly IUserGroupRepository _userGroupRepository;
         private readonly IMapper _mapper;
-        public UserGroupController(IUserGroupRepository userGroupRepository, IMapper mapper)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserGroupController(IUserGroupRepository userGroupRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _userGroupRepository = userGroupRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpPost("{GroupId}/{UserId}")]
         [Authorize(Roles = "Admin,Helpdesk")]
-        public async Task<ActionResult> AddUserToGroup(int GroupId,int UserId, [FromBody] CreateUserDto userDto)
+        public async Task<ActionResult> AddUserToGroup(int GroupId,string UserId)
         {
             var group = await _userGroupRepository.GetGroupAsync(GroupId);
             if(group==null)
@@ -30,14 +34,11 @@ namespace UserGroupManage.Service.Controllers
                 return NotFound($"Group with id = {GroupId} is not found");
             }
 
-            var user = await _userGroupRepository.GetUserAsync(UserId);
+            var user = await _userManager.FindByIdAsync(UserId);
 
             if(user==null)
             {
-                var newUser = _mapper.Map<User>(userDto);
-                _userGroupRepository.AddUser(newUser);//automapper
-                await _userGroupRepository.SaveRepositoryAsync();
-                user = newUser;
+               return NotFound($"User with id = {UserId} is not found");
             }
 
             group.Users.Add(user);

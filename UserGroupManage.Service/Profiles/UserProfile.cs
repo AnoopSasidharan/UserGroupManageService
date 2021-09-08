@@ -10,9 +10,11 @@ namespace UserGroupManage.Service.Profiles
         {
             CreateMap<CreateUserDto, User>();
             CreateMap<User, CreateUserDto>();
-            CreateMap<User, UserDto>()
-                .ForMember("TypeDesc", dest => dest.MapFrom(src => src.UserType.Description));
+            //CreateMap<User, UserDto>()
+            //    .ForMember("TypeDesc", dest => dest.MapFrom(src => src.UserType.Description));
             CreateMap<UserDto, User>();
+            CreateMap<CreateUserDto, ApplicationUser>();
+            CreateMap<ApplicationUser, UserDto>();
         }
     }
 }

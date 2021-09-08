@@ -9,12 +9,15 @@ namespace UserGroupManage.Service.Models
     public class CreateUserDto
     {
         [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
+        public string Email { get; set; }
         [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
         public int UserTypeId { get; set; }
-        public int CreatedById { get; set; }
-        public int UpdatedById { get; set; }
+        [Required]
+        public string Password { get; set; }
+        public string UserRole { get; set; }
 
     }
 }

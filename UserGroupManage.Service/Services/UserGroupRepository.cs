@@ -12,9 +12,9 @@ namespace UserGroupManage.Service.Services
 {
     public class UserGroupRepository : IUserGroupRepository
     {
-        private readonly UserGroupDbContext _dbContext;
+        private readonly UserGroupManagementDbContext _dbContext;
 
-        public UserGroupRepository(UserGroupDbContext dbContext)
+        public UserGroupRepository(UserGroupManagementDbContext dbContext)
         {
             this._dbContext = dbContext;
         }
@@ -44,17 +44,18 @@ namespace UserGroupManage.Service.Services
         {
             _dbContext.Remove(group);
         }
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<ApplicationUser>> GetAllUsersAsync()
         {
-            return await _dbContext.Users.Include(u=> u.UserType).ToListAsync();
+            return await _dbContext.ApplicationUsers.Include(u=> u.UserType).ToListAsync();
         }
         public async Task<User> GetUserAsync(int UserId)
         {
-            return await _dbContext.Users.Include(u=>u.UserType).FirstOrDefaultAsync(u=> u.Id==UserId);
+            return null;
+           // return await _dbContext.Users.Include(u=>u.UserType).FirstOrDefaultAsync(u=> u.Id==UserId);
         }
         public void AddUser(User user)
         {
-            _dbContext.Users.Add(user);
+            //_dbContext.Users.Add(user);
         }
         public void RemoveUser(User user)
         {

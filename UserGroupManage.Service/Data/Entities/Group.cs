@@ -16,6 +16,6 @@ namespace UserGroupManage.Service.Data.Entities
         public int CreatedById { get; set; }
         public int UpdatedById { get; set; }
         public DateTime CreatedDate { get; set; }
-        public ICollection<User> Users { get; set; } = new List<User>();
+        public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     }
 }
