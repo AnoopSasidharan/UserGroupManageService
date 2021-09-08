@@ -46,8 +46,8 @@ namespace UserGroupManage.Service
             //});
             services.AddDbContext<UserGroupManagementDbContext>(dboptions =>
             {
-                //dboptions.UseSqlServer(Configuration.GetConnectionString("UserGroupManagementDB"));
-                dboptions.UseSqlServer(Configuration["UserGroupManagementDB"]);
+                dboptions.UseSqlServer(Configuration.GetConnectionString("UserGroupManagementDB"));
+                //dboptions.UseSqlServer(Configuration["UserGroupManagementDB"]);
                 dboptions.LogTo(Console.WriteLine, LogLevel.Information);
             });
             services.AddIdentity<ApplicationUser, IdentityRole>()

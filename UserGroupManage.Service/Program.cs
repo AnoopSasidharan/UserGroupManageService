@@ -18,10 +18,10 @@ namespace UserGroupManage.Service
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, config)=>
-                {
-                    config.AddAzureKeyVault("https://usermanagementapp.vault.azure.net/");
-                })
+                //.ConfigureAppConfiguration((context, config)=>
+                //{
+                //    config.AddAzureKeyVault("https://usermanagementapp.vault.azure.net/");
+                //})
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
