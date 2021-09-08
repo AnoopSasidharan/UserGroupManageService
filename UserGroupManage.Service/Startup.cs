@@ -47,7 +47,7 @@ namespace UserGroupManage.Service
             services.AddDbContext<UserGroupManagementDbContext>(dboptions =>
             {
                 dboptions.UseSqlServer(Configuration.GetConnectionString("UserGroupManagementDB"));
-                dboptions.LogTo(Console.WriteLine, LogLevel.Information);
+                //dboptions.LogTo(Console.WriteLine, LogLevel.Information);
             });
             services.AddIdentity<ApplicationUser, IdentityRole>()
                .AddEntityFrameworkStores<UserGroupManagementDbContext>();
